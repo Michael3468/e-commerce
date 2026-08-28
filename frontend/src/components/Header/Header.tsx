@@ -8,14 +8,16 @@ export default function Header() {
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? 'Pizza Store';
 
   return (
-    <header className="border-b border-orange-200/60 bg-white/95 backdrop-blur-sm sticky top-0 z-50">
+    <header className="border-b border-orange-200/60 bg-white/75 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
       <div className="mx-auto flex h-16 max-w-content items-center justify-between px-4">
         <Link
           href="/"
           aria-label="На главную"
           className="flex items-center gap-2 text-xl font-extrabold text-pizza-red hover:text-pizza-red-dark transition-colors"
         >
-          <span className="text-2xl" role="img" aria-label="pizza">🍕</span>
+          <span className="text-2xl" role="img" aria-label="pizza">
+            🍕
+          </span>
           <span className="tracking-tight">{siteName}</span>
         </Link>
 
