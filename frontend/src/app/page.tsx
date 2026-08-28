@@ -5,7 +5,18 @@ import { Button, Card } from '@/components/UI';
 import { useProducts } from '@/hooks/useProducts';
 import { useCartStore } from '@/store/cart';
 
-/** Главная страница — меню пиццерии. */
+/**
+ * Главная страница — меню пиццерии.
+ *
+ * Загружает список продуктов через хук {@link useProducts} и выводит
+ * их в виде сетки карточек. Управляет добавлением товара в корзину
+ * через {@link useCartStore}.
+ *
+ * Состояния загрузки и ошибки обрабатываются отдельно: при загрузке
+ * показывается сообщение, при ошибке — кнопка повторного запроса.
+ *
+ * @returns {JSX.Element} Разметка страницы меню либо индикатор состояния.
+ */
 export default function HomePage() {
   const { data: products, isLoading, isError, refetch } = useProducts();
   const addItem = useCartStore((state) => state.addItem);
@@ -33,7 +44,8 @@ export default function HomePage() {
             🍕 Свежее меню пиццы
           </h1>
           <p className="mt-1 text-sm text-gray-600">
-            Горячая аппетитная пицца с натуральными ингредиентами и хрустящей корочкой
+            Горячая аппетитная пицца с натуральными ингредиентами и хрустящей
+            корочкой
           </p>
         </div>
       </div>

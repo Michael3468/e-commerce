@@ -14,7 +14,10 @@ export const productsKeys = {
  * на вызов apiClient.get("/products/").
  */
 export function useProducts() {
-  return useQuery({
+  // Явный generic-параметр гарантирует, что data (а значит и каждый элемент
+  // массива в каталоге) имеет тип readonly Product[], а не any[].
+  // Это исключает потерю типа даже при изменении/удалении аннотации queryFn.
+  return useQuery<readonly Product[]>({
     queryKey: productsKeys.all,
     queryFn: async (): Promise<readonly Product[]> => {
       await simulateLatency();
