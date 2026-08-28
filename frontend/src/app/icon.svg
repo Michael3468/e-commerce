@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="pizza">
+  <!-- Pizza Base / Dough Crust -->
+  <circle cx="16" cy="16" r="15" fill="#DE8C34"/>
+  <circle cx="16" cy="16" r="13" fill="#F4C430"/>
+  
+  <!-- Slice cuts / lines -->
+  <line x1="16" y1="3" x2="16" y2="29" stroke="#C47926" stroke-width="0.75" stroke-dasharray="2 1"/>
+  <line x1="3" y1="16" x2="29" y2="16" stroke="#C47926" stroke-width="0.75" stroke-dasharray="2 1"/>
+  <line x1="6.8" y1="6.8" x2="25.2" y2="25.2" stroke="#C47926" stroke-width="0.75" stroke-dasharray="2 1"/>
+  <line x1="6.8" y1="25.2" x2="25.2" y2="6.8" stroke="#C47926" stroke-width="0.75" stroke-dasharray="2 1"/>
+
+  <!-- Melted cheese accents / sauce spots -->
+  <circle cx="12" cy="14" r="3.5" fill="#F9D753" opacity="0.8"/>
+  <circle cx="20" cy="18" r="4" fill="#F9D753" opacity="0.8"/>
+  <circle cx="17" cy="11" r="3" fill="#F9D753" opacity="0.8"/>
+
+  <!-- Pepperoni slices with highlights and seasoning spots -->
+  <!-- Pepperoni 1 (top right) -->
+  <g>
+    <circle cx="20" cy="10" r="3.4" fill="#C53030"/>
+    <circle cx="19.2" cy="9.2" r="2.8" fill="#E53E3E"/>
+    <circle cx="18.5" cy="8.8" r="0.6" fill="#FEB2B2"/>
+    <circle cx="20.8" cy="10.5" r="0.5" fill="#742A2A"/>
+    <circle cx="19.5" cy="11.2" r="0.4" fill="#742A2A"/>
+  </g>
+
+  <!-- Pepperoni 2 (left center) -->
+  <g>
+    <circle cx="10.5" cy="14.5" r="3.4" fill="#C53030"/>
+    <circle cx="9.7" cy="13.7" r="2.8" fill="#E53E3E"/>
+    <circle cx="9" cy="13.3" r="0.6" fill="#FEB2B2"/>
+    <circle cx="11.5" cy="15" r="0.5" fill="#742A2A"/>
+    <circle cx="10" cy="16" r="0.4" fill="#742A2A"/>
+  </g>
+
+  <!-- Pepperoni 3 (bottom center) -->
+  <g>
+    <circle cx="16.5" cy="22" r="3.4" fill="#C53030"/>
+    <circle cx="15.7" cy="21.2" r="2.8" fill="#E53E3E"/>
+    <circle cx="15" cy="20.8" r="0.6" fill="#FEB2B2"/>
+    <circle cx="17.2" cy="22.5" r="0.5" fill="#742A2A"/>
+    <circle cx="16" cy="23.5" r="0.4" fill="#742A2A"/>
+  </g>
+
+  <!-- Pepperoni 4 (center right) -->
+  <g>
+    <circle cx="21.5" cy="18.5" r="3.2" fill="#C53030"/>
+    <circle cx="20.8" cy="17.8" r="2.6" fill="#E53E3E"/>
+    <circle cx="20.2" cy="17.3" r="0.5" fill="#FEB2B2"/>
+    <circle cx="22.2" cy="19" r="0.4" fill="#742A2A"/>
+  </g>
+
+  <!-- Pepperoni 5 (top left) -->
+  <g>
+    <circle cx="12" cy="8" r="2.8" fill="#C53030"/>
+    <circle cx="11.4" cy="7.4" r="2.3" fill="#E53E3E"/>
+    <circle cx="10.8" cy="7" r="0.5" fill="#FEB2B2"/>
+  </g>
+
+  <!-- Pepperoni 6 (bottom left) -->
+  <g>
+    <circle cx="9.5" cy="21.5" r="2.8" fill="#C53030"/>
+    <circle cx="8.9" cy="20.9" r="2.3" fill="#E53E3E"/>
+    <circle cx="8.4" cy="20.5" r="0.5" fill="#FEB2B2"/>
+  </g>
+
+  <!-- Black olives (rings) -->
+  <g fill="#2D3748">
+    <circle cx="15.5" cy="15.5" r="1.8"/>
+    <circle cx="15.5" cy="15.5" r="0.8" fill="#F4C430"/>
+
+    <circle cx="22" cy="13.5" r="1.6"/>
+    <circle cx="22" cy="13.5" r="0.7" fill="#F4C430"/>
+
+    <circle cx="14" cy="9.5" r="1.5"/>
+    <circle cx="14" cy="9.5" r="0.6" fill="#F4C430"/>
+
+    <circle cx="12" cy="18.5" r="1.6"/>
+    <circle cx="12" cy="18.5" r="0.7" fill="#F4C430"/>
+  </g>
+
+  <!-- Green bell pepper / basil herbs -->
+  <g stroke="#38A169" stroke-width="1.3" fill="none" stroke-linecap="round">
+    <path d="M 16 7 Q 17.5 8 16.5 9.5"/>
+    <path d="M 7.5 17 Q 8.5 18.5 7.5 19.5"/>
+    <path d="M 19 23.5 Q 20.5 24.5 21.5 23"/>
+    <path d="M 23.5 8.5 Q 24.5 9.5 23.5 11"/>
+    <path d="M 17.5 17.5 Q 18.5 16 19.5 17"/>
+  </g>
+
+  <!-- Small oregano flakes -->
+  <circle cx="14" cy="13" r="0.5" fill="#2F855A"/>
+  <circle cx="18" cy="14" r="0.5" fill="#2F855A"/>
+  <circle cx="13" cy="22" r="0.5" fill="#2F855A"/>
+  <circle cx="19" cy="10" r="0.4" fill="#2F855A"/>
+  <circle cx="24" cy="16" r="0.5" fill="#2F855A"/>
+  <circle cx="10" cy="11" r="0.4" fill="#2F855A"/>
+</svg>

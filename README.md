@@ -27,6 +27,7 @@ npm run commit   # интерактивный мастер создания ко
 
 - [Next.js](https://nextjs.org/) 15 (App Router), React 19, TypeScript
 - [Tailwind CSS](https://tailwindcss.com/) — стилизация
+- SVG-фавикон сайта (пицца 🍕) — [`frontend/src/app/favicon.svg`](frontend/src/app/favicon.svg), подключён в metadata корневого layout
 - [Zustand](https://zustand.docs.pmnd.rs/) — стейт (стор корзины с persist в localStorage)
 - [TanStack Query](https://tanstack.com/query) — серверное состояние (каталог, товар, заказ)
 - [axios](https://axios-http.com/) — HTTP-клиент к backend API

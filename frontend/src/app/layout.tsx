@@ -10,6 +10,9 @@ export const metadata: Metadata = {
     template: '%s | Pizza Store',
   },
   description: 'Доставка горячей и вкусной пиццы',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 interface RootLayoutProps {
