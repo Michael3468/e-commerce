@@ -37,6 +37,20 @@ const config: Config = {
           },
         },
       },
+      animation: {
+        'spin-slow': 'spin 100s linear infinite',
+        'spin-reverse-slow': 'spin-reverse 150s linear infinite',
+      },
+      keyframes: {
+        'spin-reverse': {
+          from: {
+            transform: 'rotate(360deg)',
+          },
+          to: {
+            transform: 'rotate(0deg)',
+          },
+        },
+      },
       maxWidth: {
         content: '100rem', // 1600px — широкая рабочая область для десктопа
       },

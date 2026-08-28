@@ -28,5 +28,6 @@ describe('RootLayout', () => {
 
     expect(markup).toContain('<html lang="ru"');
     expect(markup).toContain('</html>');
+    expect(markup).toContain('pizza1.png');
   });
 });

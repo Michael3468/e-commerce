@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import Providers from './providers';
 import './globals.css';
+import Background from '@/components/Background/Background';
 
 export const metadata: Metadata = {
   title: {
@@ -19,12 +21,21 @@ interface RootLayoutProps {
   readonly children: React.ReactNode;
 }
 
+/**
+ * Корневой layout приложения Pizza Store.
+ *
+ * @param props - Свойства компонента.
+ * @param props.children - Дочерние элементы страницы.
+ * @returns Корневая разметка страницы с провайдерами, шапкой, подвалом и фоновыми декоративными элементами.
+ */
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ru" suppressHydrationWarning>
-      <body>
+      <body className="relative min-h-screen overflow-x-hidden">
+        <Background />
+
         <Providers>
-          <div className="flex min-h-screen flex-col">
+          <div className="relative flex min-h-screen flex-col bg-brand-400">
             <Header />
             <main className="mx-auto w-full max-w-content flex-1 px-4 py-8">
               {children}
