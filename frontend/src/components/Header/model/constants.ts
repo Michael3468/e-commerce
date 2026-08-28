@@ -5,7 +5,7 @@ export interface NavLink {
 
 /** Ссылки основной навигации в шапке. */
 export const NAV_LINKS: readonly NavLink[] = [
-  { label: 'Каталог', href: '/' },
+  { label: 'Пиццы', href: '/' },
   { label: 'Оформление', href: '/checkout' },
   { label: 'Личный кабинет', href: '/account' },
 ];

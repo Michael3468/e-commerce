@@ -6,10 +6,10 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'E-Commerce',
-    template: '%s | E-Commerce',
+    default: 'Pizza Store',
+    template: '%s | Pizza Store',
   },
-  description: 'Демо-заготовка интернет-магазина на Next.js',
+  description: 'Доставка горячей и вкусной пиццы',
 };
 
 interface RootLayoutProps {

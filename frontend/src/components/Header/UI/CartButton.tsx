@@ -12,13 +12,14 @@ export default function CartButton() {
     <Link
       href="/cart"
       aria-label={`Корзина, товаров: ${count}`}
-      className="relative inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+      className="relative inline-flex items-center gap-1.5 rounded-full bg-pizza-yellow-light border border-amber-200 px-3.5 py-1.5 text-sm font-semibold text-amber-950 transition-colors hover:bg-amber-100 hover:border-amber-300"
     >
-      <span aria-hidden="true">🛒</span>
+      <span aria-hidden="true" className="text-base">🛒</span>
+      <span className="text-xs font-bold text-amber-900">Корзина</span>
       {count > 0 ? (
         <span
           data-testid="cart-count"
-          className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-600 px-1 text-xs font-semibold text-white"
+          className="ml-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-pizza-red px-1.5 text-xs font-bold text-white shadow-sm"
         >
           {count}
         </span>

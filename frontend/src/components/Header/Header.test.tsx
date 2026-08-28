@@ -12,7 +12,7 @@ describe('Header', () => {
       screen.getByRole('navigation', { name: 'Основная навигация' }),
     ).toBeInTheDocument();
 
-    expect(screen.getByRole('link', { name: 'Каталог' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Пиццы' })).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'Оформление' }),
     ).toBeInTheDocument();

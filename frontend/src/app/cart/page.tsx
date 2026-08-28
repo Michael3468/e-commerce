@@ -16,13 +16,19 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <section aria-label="Корзина" className="text-center">
-        <h1 className="mb-4 text-2xl font-bold">Корзина пуста</h1>
+      <section aria-label="Корзина" className="text-center py-12">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-3xl">
+          🍕
+        </div>
+        <h1 className="mb-2 text-2xl font-bold text-gray-900">Корзина пуста</h1>
+        <p className="mb-6 text-sm text-gray-500">
+          Кажется, вы ещё не выбрали свою идеальную пиццу
+        </p>
         <Link
           href="/"
-          className="inline-block text-sm font-medium text-brand-600 hover:underline"
+          className="inline-flex items-center justify-center rounded-lg bg-pizza-red px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-pizza-red-dark transition-colors"
         >
-          Перейти в каталог
+          Перейти в меню
         </Link>
       </section>
     );
@@ -86,7 +92,7 @@ export default function CartPage() {
 
       <Link
         href="/checkout"
-        className="inline-flex w-full items-center justify-center rounded-md bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+        className="inline-flex w-full items-center justify-center rounded-lg bg-pizza-red px-4 py-3 text-base font-bold text-white shadow transition-all hover:bg-pizza-red-dark hover:shadow-md focus:outline-none focus:ring-2 focus:ring-pizza-red focus:ring-offset-2 active:scale-[0.99]"
       >
         Оформить заказ
       </Link>

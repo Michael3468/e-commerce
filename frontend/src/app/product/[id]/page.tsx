@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { use, type ReactNode } from 'react';
-import { Button } from '@/components/UI';
+import { Button, Card } from '@/components/UI';
 import { useProduct } from '@/hooks/useProduct';
 import { useCartStore } from '@/store/cart';
 
@@ -25,18 +25,30 @@ export default function ProductPage({ params }: ProductPageProps) {
     content = <p className="text-red-600">Товар не найден.</p>;
   } else {
     content = (
-      <div className="max-w-2xl">
-        <h1 className="mb-2 text-2xl font-bold">{product.title}</h1>
-        <p className="mb-4 text-sm text-gray-500">{product.category}</p>
-        <p className="mb-6 text-gray-700">{product.description}</p>
-        <p className="mb-6 text-2xl font-bold">{product.price} ₽</p>
-        <Button
-          onClick={() => addItem(product)}
-          aria-label={`Добавить «${product.title}» в корзину`}
-        >
-          В корзину
-        </Button>
-      </div>
+      <Card className="max-w-2xl border border-orange-100">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
+              {product.title}
+            </h1>
+            <span className="inline-flex items-center rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800 border border-emerald-200/60">
+              🌱 {product.category}
+            </span>
+          </div>
+          <p className="text-base text-gray-600 leading-relaxed">{product.description}</p>
+          <div className="mt-4 flex items-center justify-between border-t border-orange-50 pt-4">
+            <span className="text-2xl font-extrabold text-gray-900">
+              {product.price} <span className="text-pizza-red">₽</span>
+            </span>
+            <Button
+              onClick={() => addItem(product)}
+              aria-label={`Добавить «${product.title}» в корзину`}
+            >
+              В корзину
+            </Button>
+          </div>
+        </div>
+      </Card>
     );
   }
 
@@ -44,9 +56,9 @@ export default function ProductPage({ params }: ProductPageProps) {
     <section aria-label="Информация о товаре">
       <Link
         href="/"
-        className="mb-4 inline-block text-sm text-brand-600 hover:underline"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-pizza-red hover:text-pizza-red-dark hover:underline"
       >
-        ← Назад в каталог
+        ← Назад в меню
       </Link>
       {content}
     </section>

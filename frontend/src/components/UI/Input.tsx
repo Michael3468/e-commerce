@@ -17,7 +17,7 @@ export default function Input({ label, className, id, ...rest }: InputProps) {
       <input
         id={inputId}
         className={cn(
-          'rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500',
+          'rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-pizza-red focus:outline-none focus:ring-2 focus:ring-pizza-red/20',
           className,
         )}
         {...rest}

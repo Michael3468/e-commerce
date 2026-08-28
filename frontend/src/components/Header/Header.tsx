@@ -5,17 +5,18 @@ import { NAV_LINKS } from './model/constants';
 import CartButton from './UI/CartButton';
 
 export default function Header() {
-  const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? 'E-Commerce';
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? 'Pizza Store';
 
   return (
-    <header className="border-b border-gray-200 bg-white">
+    <header className="border-b border-orange-200/60 bg-white/95 backdrop-blur-sm sticky top-0 z-50">
       <div className="mx-auto flex h-16 max-w-content items-center justify-between px-4">
         <Link
           href="/"
           aria-label="На главную"
-          className="text-xl font-bold text-brand-700"
+          className="flex items-center gap-2 text-xl font-extrabold text-pizza-red hover:text-pizza-red-dark transition-colors"
         >
-          {siteName}
+          <span className="text-2xl" role="img" aria-label="pizza">🍕</span>
+          <span className="tracking-tight">{siteName}</span>
         </Link>
 
         <div className="ml-auto flex items-center gap-6">
@@ -27,7 +28,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-gray-700 transition-colors hover:text-brand-600"
+                className="text-sm font-semibold text-gray-700 transition-colors hover:text-pizza-red"
               >
                 {link.label}
               </Link>
