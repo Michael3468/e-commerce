@@ -37,9 +37,12 @@ describe('HomePage', () => {
     const button = screen.getByRole('button', {
       name: 'Добавить «Пепперони» в корзину',
     });
+    const image = screen.getByRole('img', { name: 'Пепперони' });
 
     expect(price).toBeInTheDocument();
     expect(button).toBeInTheDocument();
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute('src', expect.stringContaining('pizza2.png'));
 
     const card = price.closest('[class*="max-w-"]');
     expect(card).toHaveClass('max-w-[18.75rem]');

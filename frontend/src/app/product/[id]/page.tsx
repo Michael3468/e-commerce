@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { use, type ReactNode } from 'react';
 import { Button, Card } from '@/components/UI';
@@ -27,6 +28,16 @@ export default function ProductPage({ params }: ProductPageProps) {
     content = (
       <Card className="max-w-2xl border border-orange-100">
         <div className="flex flex-col gap-4">
+          <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-orange-50/50 sm:aspect-[2/1]">
+            <Image
+              src="/pizza2.png"
+              alt={product.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 672px"
+              className="object-contain p-4"
+              priority
+            />
+          </div>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
               {product.title}
@@ -35,7 +46,9 @@ export default function ProductPage({ params }: ProductPageProps) {
               🌱 {product.category}
             </span>
           </div>
-          <p className="text-base text-gray-600 leading-relaxed">{product.description}</p>
+          <p className="text-base text-gray-600 leading-relaxed">
+            {product.description}
+          </p>
           <div className="mt-4 flex items-center justify-between border-t border-orange-50 pt-4">
             <span className="text-2xl font-extrabold text-gray-900">
               {product.price} <span className="text-pizza-red">₽</span>
