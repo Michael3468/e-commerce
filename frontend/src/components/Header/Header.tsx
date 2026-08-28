@@ -18,22 +18,24 @@ export default function Header() {
           {siteName}
         </Link>
 
-        <nav
-          aria-label="Основная навигация"
-          className="flex items-center gap-4"
-        >
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-gray-700 transition-colors hover:text-brand-600"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="ml-auto flex items-center gap-6">
+          <nav
+            aria-label="Основная навигация"
+            className="flex items-center gap-4"
+          >
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-gray-700 transition-colors hover:text-brand-600"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-        <CartButton />
+          <CartButton />
+        </div>
       </div>
     </header>
   );
