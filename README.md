@@ -1,117 +1,106 @@
-# e-com
+# E-Commerce
 
-***
-##  С чего начать?
-Для того, чтобы облегчить знакомство с сервисом GitFlic и первые шаги в нём, мы подготовили несколько рекомендаций.  
-Уже опытный пользователь? Отредактируйте данный **README** файл по своему усмотрению.  
-Не знаете что добавить в него? Перейдите в раздел `"Что должен содержать README файл"`, в котором описаны ключевые компоненты хорошего README файла. 
+Монорепозиторий интернет-магазина: **фронтенд на Next.js** и **бэкенд на Django/DRF** (бэкенд появится на следующем этапе). Запуск — через Docker.
 
-## Добавьте свои файлы
-Если вы решили начать разработку проекта с создания репозитория в нашем сервисе, тогда клонируйте себе данный репозиторий следующим образом:
-
+## Структура
 
 ```
-git clone https://gitflic.ru/project/michael3468/e-com.git
-cd e-com
-**добавьте первые файлы вашего проекта**
-git add .
-git commit -m "Первый коммит"
-git push -u origin master
+e-commerce/
+├── frontend/          # Next.js (App Router) + TypeScript + Tailwind + Zustand + TanStack Query
+├── backend/           # Django/DRF (планируется, пока отсутствует)
+└── README.md
 ```
 
-Уже что-то делали в проекте? В таком случае инициализируйте гит-репозиторий в корне проекта и добавьте текущий репозиторий как удалённый репозиторий:
+## Git / коммиты
 
+В корне проекта настроен [Commitizen](https://commitizen.github.io/cz-cli/) с
+адаптером `cz-conventional-changelog` для создания коммитов по
+[Conventional Commits](https://www.conventionalcommits.org/).
+
+```bash
+npm run commit   # интерактивный мастер создания коммита
 ```
-cd existing_folder
-git init
-git remote add origin https://gitflic.ru/project/michael3468/e-com.git
-git clone
-**добавьте новые файлы**
-git add .
-git commit -m "Новый коммит"
-git push -u origin master
+
+## Стек
+
+### Frontend (`frontend/`)
+
+- [Next.js](https://nextjs.org/) 15 (App Router), React 19, TypeScript
+- [Tailwind CSS](https://tailwindcss.com/) — стилизация
+- [Zustand](https://zustand.docs.pmnd.rs/) — стейт (стор корзины с persist в localStorage)
+- [TanStack Query](https://tanstack.com/query) — серверное состояние (каталог, товар, заказ)
+- [axios](https://axios-http.com/) — HTTP-клиент к backend API
+- `clsx` + `tailwind-merge` — утилита объединения классов
+- [Vitest](https://vitest.dev/) + Testing Library — тесты
+- ESLint — линтинг
+
+## Frontend
+
+### Запуск локально
+
+```bash
+cd frontend
+npm install
+
+# настроить переменные окружения (по желанию)
+cp .env.example .env.local
+
+npm run dev        # http://localhost:3000
 ```
-***
 
+### Переменные окружения
 
-# Что должен содержать README файл
+| Переменная              | Описание                                                                              | По умолчанию                |
+| ----------------------- | ------------------------------------------------------------------------------------- | --------------------------- |
+| `NEXT_PUBLIC_API_URL`   | Публичный адрес backend API для запросов из браузера                                  | `http://localhost:8000/api` |
+| `INTERNAL_API_URL`      | Адрес backend для серверных (SSR) вызовов; внутри docker-сети — имя сервиса `backend` | `NEXT_PUBLIC_API_URL`       |
+| `NEXT_PUBLIC_SITE_NAME` | Название магазина в шапке                                                             | `E-Commerce`                |
 
+> Внутри docker-сети и из браузера адреса backend разные: контейнер обращается
+> к сервису по имени `backend`, а браузер — по публичному адресу. Поэтому
+> используются две переменные: `NEXT_PUBLIC_API_URL` (клиент) и
+> `INTERNAL_API_URL` (сервер). См. [`frontend/src/lib/api.ts`](frontend/src/lib/api.ts).
 
-Прежде всего, стоит понимать, что `README.md` — это краткая документация. Это первое, что видит человек, который открывает репозиторий. Поэтому здесь важно дать достаточно информации о проекте и рассказать, что он из себя представляет.
-Ключевая информация, которую должен содержать README файл:
+### Docker
 
-## Название и описание
-Название проекта должно быть простым и понятным (чаще всего это одно слово).
-Описание должно описывать основные функции проекта, включая его особенности и назначение. 
-Если у вашего проекта есть альтернативные проекты, то в описании можно перечислить ключевые отличия, которые выделяют ваш проект на фоне всех остальных.
+Dockerfile использует multi-stage сборку и standalone-вывод Next.js:
 
-## Установка и настройка
-Также в `README` файле рекомендуется перечислить необходимые инструкции для установки, 
-будь то использование пакетных менеджеров (например, `Homebrew` на MacOS или `apt` на Linux), 
-зависимости, которые могут понадобиться в ходе использования, а также шаги по их настройке.
+```bash
+cd frontend
+docker build -t e-commerce-frontend .
+docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_API_URL=http://localhost:8000/api \
+  -e INTERNAL_API_URL=http://backend:8000/api \
+  e-commerce-frontend
+```
 
-## Совместная разработка
-Можно добавить информацию о том, как принять участие в разработке вашего проекта, как стать непосредственным участником, правила оформления pull-requests и т.д.
+Полноценный `docker-compose.yml` с сервисами `frontend` и `backend` появится на следующем этапе.
 
-## Контакты
-Ссылки на внешние ресурсы, такие как документация, блог, страница проекта в социальных сетях, сообщество проекта и т.д.
+### Полезные команды
 
-## Статус проекта
-В данном разделе рекомендуется указывать, на какой стадии находится проект, активно разрабатывается или находится в стадии застоя.
-Если же проект готов и во всю используется, можно указывать актуальную версию, а также последние изменения, которые были сделаны с момента предыдущего релиза.
+```bash
+npm run dev         # dev-сервер
+npm run build       # production-сборка
+npm run start       # запуск production-сборки
+npm run lint        # ESLint
+npm run typecheck   # tsc --noEmit
+npm run test        # Vitest (разовый прогон)
+npm run test:watch  # Vitest (watch)
+```
 
-***
+### Основные роуты
 
-# Полезные ссылки
+| Роут            | Описание          |
+| --------------- | ----------------- |
+| `/`             | Каталог товаров   |
+| `/product/[id]` | Страница товара   |
+| `/cart`         | Корзина           |
+| `/checkout`     | Оформление заказа |
+| `/account`      | Личный кабинет    |
 
-***
+## Статус
 
-## Работа с проектом
-
-- [ ] [Как создать проект](https://docs.gitflic.ru/project/project_create)
-- [ ] [Как импортировать проект](https://docs.gitflic.ru/project/import_base)
-- [ ] [Запросы на слияние](https://docs.gitflic.ru/project/merge_request)
-- [ ] [Зеркалирование проекта](https://docs.gitflic.ru/project/mirror)
-- [ ] [Импортировать проект с GitLab](https://docs.gitflic.ru/project/import)
-
-## Команды
-- [ ] [Создание команды](https://docs.gitflic.ru/team/create)
-- [ ] [Обзор команды](https://docs.gitflic.ru/team/view)
-- [ ] [Настройка команды](https://docs.gitflic.ru/team/settings)
-
-## Реестр пакетов
-- [ ] [Реестр пакетов](https://docs.gitflic.ru/registry/package)
-- [ ] [PyPi](https://docs.gitflic.ru/registry/pypi_registry)
-- [ ] [Generic](https://docs.gitflic.ru/registry/generic_registry)
-- [ ] [Maven](https://docs.gitflic.ru/registry/maven_registry)
-- [ ] [Docker](https://docs.gitflic.ru/registry/docker)
-
-## Компании
-- [ ] [Создание компании](https://docs.gitflic.ru/company/create)
-- [ ] [Обзор компании](https://docs.gitflic.ru/company/view)
-- [ ] [Тарифы и оплата](https://docs.gitflic.ru/company/price)
-- [ ] [Запуск агента компании](https://docs.gitflic.ru/company/saas_runner_setup)
-
-## CI/CD
-- [ ] [Что такое GitFlic CI/CD](https://docs.gitflic.ru/cicd/introduction)
-- [ ] [Задача (Job)](https://docs.gitflic.ru/cicd/job)
-- [ ] [Конвейер (pipeline)](https://docs.gitflic.ru/cicd/pipeline)
-- [ ] [Агенты](https://docs.gitflic.ru/cicd/agent)
-- [ ] [Справочник для .yaml файла](https://docs.gitflic.ru/cicd/gitflic-ci-yaml)
-
-## API
-- [ ] [Введение в GitFlic API](https://docs.gitflic.ru/api/intro)
-- [ ] [Методы для администратора](https://docs.gitflic.ru/api/admin)
-- [ ] [Получение access токена](https://docs.gitflic.ru/api/access-token)
-
-
-## Панель администратора
-- [ ] [Панель администратора](https://docs.gitflic.ru/admin_panel/intro)
-- [ ] [Панель управления](https://docs.gitflic.ru/admin_panel/dashboard)
-- [ ] [Настройка LDAP](https://docs.gitflic.ru/admin_panel/ldap)
-- [ ] [Ключевые настройки](https://docs.gitflic.ru/admin_panel/settings)
-
-## Общая информация
-- [ ] [Глоссарий](https://docs.gitflic.ru/common/gloss)
-- [ ] [Права доступа ролей](https://docs.gitflic.ru/common/manage_roles)
-- [ ] [Вебхуки](https://docs.gitflic.ru/common/webhook)
+Проект находится на этапе фронтенд-заготовки. Backend ещё не создан, поэтому
+данные каталога и заказов — моковые заглушки
+([`frontend/src/data/mockProducts.ts`](frontend/src/data/mockProducts.ts));
+хуки заменят их вызовами реального API после подключения бэкенда.

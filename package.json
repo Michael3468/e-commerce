@@ -1,0 +1,17 @@
+{
+  "name": "e-commerce",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "commit": "clear && git status && git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "commitizen": "^4.3.2",
+    "cz-conventional-changelog": "^3.3.0"
+  }
+}
