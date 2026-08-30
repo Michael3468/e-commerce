@@ -11,8 +11,10 @@
   "lint-staged": {
     "frontend/**/*.{js,jsx,ts,tsx}": [
       "npm --prefix frontend run lint",
-      "npm --prefix frontend run typecheck",
-      "npm --prefix frontend run test"
+      "npm --prefix frontend run test -- --run"
+    ],
+    "frontend/**/*": [
+      "bash -c 'npm --prefix frontend run typecheck'"
     ]
   },
   "config": {
