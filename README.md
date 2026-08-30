@@ -1,13 +1,14 @@
 # E-Commerce
 
-Монорепозиторий интернет-магазина: **фронтенд на Next.js** и **бэкенд на Django/DRF** (бэкенд появится на следующем этапе). Запуск — через Docker.
+Монорепозиторий интернет-магазина: **фронтенд на Next.js** и **бэкенд на Django / Django REST Framework / PostgreSQL / Celery / Redis**. Запуск — через Docker Compose.
 
 ## Структура
 
 ```
 e-commerce/
-├── frontend/          # Next.js (App Router) + TypeScript + Tailwind + Zustand + TanStack Query
-├── backend/           # Django/DRF (планируется, пока отсутствует)
+├── frontend/          # Next.js 15 (App Router) + TypeScript + Tailwind + Zustand + TanStack Query
+├── backend/           # Django 5 + DRF + PostgreSQL + Celery + Redis
+├── docker-compose.yml # Сервисы: frontend, backend, db, redis, celery_worker
 └── README.md
 ```
 
@@ -27,7 +28,6 @@ npm run commit   # интерактивный мастер создания ко
 
 - [Next.js](https://nextjs.org/) 15 (App Router), React 19, TypeScript
 - [Tailwind CSS](https://tailwindcss.com/) — стилизация
-- SVG-фавикон сайта (пицца 🍕) — [`frontend/src/app/favicon.svg`](frontend/src/app/favicon.svg), подключён в metadata корневого layout
 - [Zustand](https://zustand.docs.pmnd.rs/) — стейт (стор корзины с persist в localStorage)
 - [TanStack Query](https://tanstack.com/query) — серверное состояние (каталог, товар, заказ)
 - [axios](https://axios-http.com/) — HTTP-клиент к backend API
@@ -35,7 +35,88 @@ npm run commit   # интерактивный мастер создания ко
 - [Vitest](https://vitest.dev/) + Testing Library — тесты
 - ESLint — линтинг
 
-## Frontend
+### Backend (`backend/`)
+
+- [Django](https://www.djangoproject.com/) 5 + [Django REST Framework](https://www.django-rest-framework.org/) (DRF)
+- [PostgreSQL](https://www.postgresql.org/) (драйвер `psycopg 3`)
+- [Celery](https://docs.celeryq.dev/) + [Redis](https://redis.io/) — фоновые задачи (обработка заказов)
+- [drf-spectacular](https://drf-spectacular.readthedocs.io/) — OpenAPI 3 / Swagger документация
+- [django-cors-headers](https://github.com/adamchainz/django-cors-headers) — CORS-заголовки для интеграции с Next.js
+- [django-filter](https://django-filter.readthedocs.io/) — фильтрация товаров по категориям и полям
+- [pytest-django](https://pytest-django.readthedocs.io/) — тестирование API
+
+---
+
+## Запуск всего проекта через Docker Compose
+
+```bash
+# Сборка и запуск всех сервисов (frontend, backend, db, redis, celery_worker)
+docker compose up --build
+```
+
+После старта будут доступны:
+- **Frontend**: [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:8000/api/](http://localhost:8000/api/)
+- **Swagger UI (документация API)**: [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
+- **Django Admin**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
+
+---
+
+## Backend (`backend/`)
+
+### Локальный запуск без Docker
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # venv\Scripts\activate на Windows
+pip install -r requirements.txt
+
+# Применение миграций и загрузка тестовых товаров
+python manage.py migrate
+python manage.py seed_products
+
+# Запуск сервера
+python manage.py runserver 0.0.0.0:8000
+```
+
+### Фоновые задачи Celery (при наличии Redis)
+
+```bash
+celery -A config worker --loglevel=info
+```
+
+### Запуск тестов бэкенда
+
+**Через Docker Compose (рекомендуется):**
+
+```bash
+docker compose exec backend pytest
+```
+
+**Локально в виртуальном окружении:**
+
+```bash
+cd backend
+# убедитесь, что виртуальное окружение активировано и установлены зависимости:
+# source venv/bin/activate
+pytest
+```
+
+### Основные эндпоинты API
+
+| Метод | URL | Описание |
+| --- | --- | --- |
+| `GET` | `/api/products/` | Список товаров (фильтры: `?category=1`, `?search=пепперони`, `?ordering=price`) |
+| `GET` | `/api/products/{id}/` | Детали товара |
+| `GET` | `/api/categories/` | Список категорий |
+| `POST` | `/api/orders/` | Оформление заказа (запускает задачу Celery) |
+| `GET` | `/api/orders/{id}/` | Получение информации о заказе по UUID |
+| `GET` | `/api/docs/` | Интерактивная Swagger UI документация |
+
+---
+
+## Frontend (`frontend/`)
 
 ### Запуск локально
 
@@ -57,26 +138,6 @@ npm run dev        # http://localhost:3000
 | `INTERNAL_API_URL`      | Адрес backend для серверных (SSR) вызовов; внутри docker-сети — имя сервиса `backend` | `NEXT_PUBLIC_API_URL`       |
 | `NEXT_PUBLIC_SITE_NAME` | Название магазина в шапке                                                             | `E-Commerce`                |
 
-> Внутри docker-сети и из браузера адреса backend разные: контейнер обращается
-> к сервису по имени `backend`, а браузер — по публичному адресу. Поэтому
-> используются две переменные: `NEXT_PUBLIC_API_URL` (клиент) и
-> `INTERNAL_API_URL` (сервер). См. [`frontend/src/lib/api.ts`](frontend/src/lib/api.ts).
-
-### Docker
-
-Dockerfile использует multi-stage сборку и standalone-вывод Next.js:
-
-```bash
-cd frontend
-docker build -t e-commerce-frontend .
-docker run -p 3000:3000 \
-  -e NEXT_PUBLIC_API_URL=http://localhost:8000/api \
-  -e INTERNAL_API_URL=http://backend:8000/api \
-  e-commerce-frontend
-```
-
-Полноценный `docker-compose.yml` с сервисами `frontend` и `backend` появится на следующем этапе.
-
 ### Полезные команды
 
 ```bash
@@ -88,20 +149,3 @@ npm run typecheck   # tsc --noEmit
 npm run test        # Vitest (разовый прогон)
 npm run test:watch  # Vitest (watch)
 ```
-
-### Основные роуты
-
-| Роут            | Описание          |
-| --------------- | ----------------- |
-| `/`             | Каталог товаров   |
-| `/product/[id]` | Страница товара   |
-| `/cart`         | Корзина           |
-| `/checkout`     | Оформление заказа |
-| `/account`      | Личный кабинет    |
-
-## Статус
-
-Проект находится на этапе фронтенд-заготовки. Backend ещё не создан, поэтому
-данные каталога и заказов — моковые заглушки
-([`frontend/src/data/mockProducts.ts`](frontend/src/data/mockProducts.ts));
-хуки заменят их вызовами реального API после подключения бэкенда.
