@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import ProductPage from './page';
@@ -28,7 +28,9 @@ describe('ProductPage', () => {
     } as unknown as ReturnType<typeof useProduct>);
 
     const paramsPromise = Promise.resolve({ id: '1' });
-    render(<ProductPage params={paramsPromise} />);
+    await act(async () => {
+      render(<ProductPage params={paramsPromise} />);
+    });
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { level: 1, name: 'Пепперони' })).toBeInTheDocument();
