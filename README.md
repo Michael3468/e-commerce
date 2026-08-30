@@ -18,6 +18,8 @@ e-commerce/
 адаптером `cz-conventional-changelog` для создания коммитов по
 [Conventional Commits](https://www.conventionalcommits.org/).
 
+Также настроены Git-хуки с помощью [Husky](https://typicode.github.io/husky/) и [lint-staged](https://github.com/lint-staged/lint-staged). При коммите изменений во фронтенде (`frontend/**/*.{js,jsx,ts,tsx}`) автоматически запускаются проверки ESLint, TypeScript и тесты Vitest.
+
 ```bash
 npm run commit   # интерактивный мастер создания коммита
 ```
