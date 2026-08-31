@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test": "npm --prefix frontend test",
+    "dev": "docker compose up --build",
+    "frontend:test": "npm --prefix frontend test",
+    "frontend:typecheck": "npm --prefix frontend run typecheck",
+    "frontend:lint": "npm --prefix frontend run lint",
+    "backend:test": "docker compose exec -T backend pytest",
     "commit": "clear && git status && git-cz",
     "prepare": "husky",
     "lint-staged": "lint-staged"
