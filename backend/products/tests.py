@@ -28,6 +28,7 @@ class TestProductsAPI:
         assert float(results[0]['price']) == 500.00
         assert results[0]['imageUrl'] == 'http://example.com/pizza.jpg'
         assert results[0]['category_name'] == 'Пиццы'
+        assert results[0]['category'] == 'Пиццы'
 
     def test_get_product_detail(self):
         response = self.client.get(f'/api/products/{self.product.id}/')

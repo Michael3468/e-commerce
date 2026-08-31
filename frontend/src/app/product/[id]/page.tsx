@@ -30,12 +30,13 @@ export default function ProductPage({ params }: ProductPageProps) {
         <div className="flex flex-col gap-4">
           <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-orange-50/50 sm:aspect-[2/1]">
             <Image
-              src="/pizza2.png"
+              src={product.imageUrl || '/pizza2.png'}
               alt={product.title}
               fill
               sizes="(max-width: 768px) 100vw, 672px"
               className="object-contain p-4"
               priority
+              unoptimized={Boolean(product.imageUrl)}
             />
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2">

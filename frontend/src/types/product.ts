@@ -6,7 +6,16 @@ export interface Product {
   readonly price: number;
   readonly description: string;
   readonly category: string;
+  readonly category_name?: string;
   readonly imageUrl?: string;
+}
+
+/** Ответ API со списком товаров (поддержка пагинации DRF и плоского массива). */
+export interface PaginatedProductsResponse {
+  readonly count: number;
+  readonly next: string | null;
+  readonly previous: string | null;
+  readonly results: readonly Product[];
 }
 
 export interface OrderItem {

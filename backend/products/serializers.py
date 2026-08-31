@@ -16,6 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     # Для удобства фронтенда передаем название категории строкой
     category_name = serializers.CharField(source='category.name', read_only=True, default='')
+    category = serializers.CharField(source='category.name', read_only=True, default='')
     imageUrl = serializers.CharField(source='image_url', required=False, allow_blank=True)
 
     class Meta:

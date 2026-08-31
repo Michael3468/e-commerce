@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMockProducts, simulateLatency } from '@/data/mockProducts';
-import type { Product } from '@/types/product';
+import { apiClient } from '@/lib/api';
+import type { PaginatedProductsResponse, Product } from '@/types/product';
 
 /** Ключи запросов каталога для инвалидации и дедупликации. */
 export const productsKeys = {
@@ -9,9 +9,11 @@ export const productsKeys = {
 };
 
 /**
- * Получение списка товаров каталога.
- * Сейчас возвращает мок-данные; после появления backend заменить queryFn
- * на вызов apiClient.get("/products/").
+ * Получение списка товаров каталога с бэкенда.
+ * Делает GET-запрос к `/products/` и возвращает массив товаров
+ * с поддержкой пагинированного ответа DRF и обычного массива.
+ *
+ * @returns Результат запроса React Query со списком продуктов.
  */
 export function useProducts() {
   // Явный generic-параметр гарантирует, что data (а значит и каждый элемент
@@ -20,8 +22,20 @@ export function useProducts() {
   return useQuery<readonly Product[]>({
     queryKey: productsKeys.all,
     queryFn: async (): Promise<readonly Product[]> => {
-      await simulateLatency();
-      return getMockProducts();
+      const response = await apiClient.get<
+        PaginatedProductsResponse | readonly Product[]
+      >('/products/');
+
+      const data = response.data;
+      if (Array.isArray(data)) {
+        return data;
+      }
+
+      if (data && 'results' in data && Array.isArray(data.results)) {
+        return data.results;
+      }
+
+      return [];
     },
   });
 }

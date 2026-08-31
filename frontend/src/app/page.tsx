@@ -56,11 +56,12 @@ export default function HomePage() {
             <Card className="flex h-full max-w-[18.75rem] flex-col border border-orange-100/80 hover:border-amber-300">
               <div className="relative mb-3 aspect-square w-full overflow-hidden rounded-lg bg-orange-50/50">
                 <Image
-                  src="/pizza2.png"
+                  src={product.imageUrl || '/pizza2.png'}
                   alt={product.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 300px"
                   className="object-contain p-2 transition-transform duration-300 hover:scale-105"
+                  unoptimized={Boolean(product.imageUrl)}
                 />
               </div>
               <div className="mb-2 flex items-start justify-between gap-2">
