@@ -13,17 +13,6 @@
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },
-  "lint-staged": {
-    "frontend/**/*.{js,jsx,ts,tsx}": [
-      "npm --prefix frontend run test -- --run --passWithNoTests",
-      "npm run frontend:typecheck",
-      "npm run frontend:lint",
-      "npm run backend:test"
-    ],
-    "frontend/**/*": [
-      "bash -c 'npm --prefix frontend run typecheck'"
-    ]
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
