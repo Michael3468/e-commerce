@@ -57,6 +57,7 @@ docker compose up --build
 ```
 
 После старта будут доступны:
+
 - **Frontend**: [http://localhost:3000](http://localhost:3000)
 - **Backend API**: [http://localhost:8000/api/](http://localhost:8000/api/)
 - **Swagger UI (документация API)**: [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
@@ -81,6 +82,17 @@ python manage.py seed_products
 # Запуск сервера
 python manage.py runserver 0.0.0.0:8000
 ```
+
+> **Про `seed_products`:** команда выполняется при каждом старте бэкенда
+> ([`docker-compose.yml`](docker-compose.yml)) и создаёт только начальные
+> категории **«Напитки»** и **«Закуски»** и пару демо-товаров. Категория
+> **«Пиццы»** намеренно **не** создаётся сидом — это сделано для того, чтобы
+> удалённая в админке категория не возвращалась после перезапуска контейнера.
+> Если она нужна, создайте её вручную через Django Admin
+> ([http://localhost:8000/admin/](http://localhost:8000/admin/)).
+>
+> Команда идемпотентна: повторный запуск не создаёт дубликатов
+> (`get_or_create` / `update_or_create`).
 
 ### Фоновые задачи Celery (при наличии Redis)
 
@@ -107,14 +119,14 @@ pytest
 
 ### Основные эндпоинты API
 
-| Метод | URL | Описание |
-| --- | --- | --- |
-| `GET` | `/api/products/` | Список товаров (фильтры: `?category=1`, `?search=пепперони`, `?ordering=price`) |
-| `GET` | `/api/products/{id}/` | Детали товара |
-| `GET` | `/api/categories/` | Список категорий |
-| `POST` | `/api/orders/` | Оформление заказа (запускает задачу Celery) |
-| `GET` | `/api/orders/{id}/` | Получение информации о заказе по UUID |
-| `GET` | `/api/docs/` | Интерактивная Swagger UI документация |
+| Метод  | URL                   | Описание                                                                        |
+| ------ | --------------------- | ------------------------------------------------------------------------------- |
+| `GET`  | `/api/products/`      | Список товаров (фильтры: `?category=1`, `?search=пепперони`, `?ordering=price`) |
+| `GET`  | `/api/products/{id}/` | Детали товара                                                                   |
+| `GET`  | `/api/categories/`    | Список категорий                                                                |
+| `POST` | `/api/orders/`        | Оформление заказа (запускает задачу Celery)                                     |
+| `GET`  | `/api/orders/{id}/`   | Получение информации о заказе по UUID                                           |
+| `GET`  | `/api/docs/`          | Интерактивная Swagger UI документация                                           |
 
 ---
 
