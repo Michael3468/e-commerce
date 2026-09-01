@@ -87,7 +87,9 @@ describe('useProducts hook', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(apiClient.get).toHaveBeenCalledWith('/products/');
+    expect(apiClient.get).toHaveBeenCalledWith('/products/', {
+      params: undefined,
+    });
     expect(result.current.data).toEqual(mockProducts);
   });
 
@@ -106,9 +108,31 @@ describe('useProducts hook', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(apiClient.get).toHaveBeenCalledWith('/products/');
+    expect(apiClient.get).toHaveBeenCalledWith('/products/', {
+      params: undefined,
+    });
     expect(result.current.data).toEqual(mockProducts);
   });
+
+  /**
+   * Проверяет передачу фильтра категории.
+   */
+  it('передаёт параметр категории в запрос при передаче params', async () => {
+    vi.mocked(apiClient.get).mockResolvedValueOnce({
+      data: mockProducts,
+    });
+
+    const { result } = renderHook(() => useProducts({ category: 1 }), {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    expect(apiClient.get).toHaveBeenCalledWith('/products/', {
+      params: { category: 1 },
+    });
+  });
+
 
   /**
    * Проверяет, что при ошибке запроса хук переходит в состояние ошибки

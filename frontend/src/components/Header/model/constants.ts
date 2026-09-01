@@ -3,9 +3,9 @@ export interface NavLink {
   readonly href: string;
 }
 
-/** Ссылки основной навигации в шапке. */
+/** Ссылки основной навигации в шапке (статические страницы). */
 export const NAV_LINKS: readonly NavLink[] = [
-  { label: 'Пиццы', href: '/' },
-  { label: 'Оформление', href: '/checkout' },
+  { label: 'Главная', href: '/' },
   { label: 'Личный кабинет', href: '/account' },
 ];
+

@@ -152,7 +152,7 @@ npm run dev        # http://localhost:3000
 | ----------------------- | ------------------------------------------------------------------------------------- | --------------------------- |
 | `NEXT_PUBLIC_API_URL`   | Публичный адрес backend API для запросов из браузера                                  | `http://localhost:8000/api` |
 | `INTERNAL_API_URL`      | Адрес backend для серверных (SSR) вызовов; внутри docker-сети — имя сервиса `backend` | `NEXT_PUBLIC_API_URL`       |
-| `NEXT_PUBLIC_SITE_NAME` | Название магазина в шапке                                                             | `E-Commerce`                |
+| `NEXT_PUBLIC_SITE_NAME` | Название магазина в шапке                                                             | `Pizza Store`               |
 
 ### Полезные команды
 
