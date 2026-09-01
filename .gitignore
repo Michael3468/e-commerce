@@ -9,3 +9,4 @@ node_modules/
 .kodik/
 
 frontend/tsconfig.tsbuildinfo
+frontend/ignore/
