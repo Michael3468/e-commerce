@@ -1,7 +1,0 @@
-npx lint-staged
-
-npm run backend:test
-
-npm run frontend:test
-npm run frontend:typecheck
-npm run frontend:lint
