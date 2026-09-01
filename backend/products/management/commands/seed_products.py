@@ -9,39 +9,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Заполнение базы данных товарами...')
 
-        pizzas_cat, _ = Category.objects.get_or_create(name='Пиццы', slug='pizzas')
+        # после перезапуска контейнера (команда seed_products выполняется при старте).
         drinks_cat, _ = Category.objects.get_or_create(name='Напитки', slug='drinks')
         snacks_cat, _ = Category.objects.get_or_create(name='Закуски', slug='snacks')
 
         sample_products = [
-            {
-                'title': 'Пепперони',
-                'description': 'Пикантная пепперони, моцарелла, томатный соус',
-                'price': 590,
-                'category': pizzas_cat,
-                'image_url': 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500&auto=format&fit=crop&q=60',
-            },
-            {
-                'title': 'Маргарита',
-                'description': 'Моцарелла, томаты, базилик и ароматные травы',
-                'price': 490,
-                'category': pizzas_cat,
-                'image_url': 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&auto=format&fit=crop&q=60',
-            },
-            {
-                'title': 'Четыре сыра',
-                'description': 'Моцарелла, горгонзола, пармезан, чеддер',
-                'price': 650,
-                'category': pizzas_cat,
-                'image_url': 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60',
-            },
-            {
-                'title': 'Мясная',
-                'description': 'Бекон, ветчина, колбаски, моцарелла',
-                'price': 690,
-                'category': pizzas_cat,
-                'image_url': 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=500&auto=format&fit=crop&q=60',
-            },
             {
                 'title': 'Морс клюквенный',
                 'description': 'Натуральный морс из лесной клюквы 0.5л',
