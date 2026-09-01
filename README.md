@@ -45,6 +45,7 @@ npm run commit   # интерактивный мастер создания ко
 - [drf-spectacular](https://drf-spectacular.readthedocs.io/) — OpenAPI 3 / Swagger документация
 - [django-cors-headers](https://github.com/adamchainz/django-cors-headers) — CORS-заголовки для интеграции с Next.js
 - [django-filter](https://django-filter.readthedocs.io/) — фильтрация товаров по категориям и полям
+- `Pillow` — обработка и загрузка изображений товаров
 - [pytest-django](https://pytest-django.readthedocs.io/) — тестирование API
 
 ---
@@ -122,6 +123,7 @@ pytest
 | Метод  | URL                   | Описание                                                                        |
 | ------ | --------------------- | ------------------------------------------------------------------------------- |
 | `GET`  | `/api/products/`      | Список товаров (фильтры: `?category=1`, `?search=пепперони`, `?ordering=price`) |
+| `POST` | `/api/products/`      | Создание товара (поддерживает `multipart/form-data` для загрузки файла `image`) |
 | `GET`  | `/api/products/{id}/` | Детали товара                                                                   |
 | `GET`  | `/api/categories/`    | Список категорий                                                                |
 | `POST` | `/api/orders/`        | Оформление заказа (запускает задачу Celery)                                     |

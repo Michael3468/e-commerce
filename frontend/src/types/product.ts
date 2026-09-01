@@ -7,6 +7,7 @@ export interface Product {
   readonly description: string;
   readonly category: string;
   readonly category_name?: string;
+  readonly image?: string | null;
   readonly imageUrl?: string;
 }
 

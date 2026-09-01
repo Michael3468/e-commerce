@@ -17,7 +17,8 @@ class ProductSerializer(serializers.ModelSerializer):
     # Для удобства фронтенда передаем название категории строкой
     category_name = serializers.CharField(source='category.name', read_only=True, default='')
     category = serializers.CharField(source='category.name', read_only=True, default='')
-    imageUrl = serializers.CharField(source='image_url', required=False, allow_blank=True)
+    image = serializers.ImageField(required=False, allow_null=True)
+    imageUrl = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -28,7 +29,19 @@ class ProductSerializer(serializers.ModelSerializer):
             'price',
             'category',
             'category_name',
+            'image',
             'imageUrl',
+            'image_url',
             'is_available',
             'created_at',
         ]
+
+    def get_imageUrl(self, obj: Product) -> str:
+        """Возвращает URL загруженного изображения либо внешнюю ссылку image_url."""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return obj.image_url or ''
+

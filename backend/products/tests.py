@@ -1,5 +1,8 @@
 """Tests for products API."""
+import io
 import pytest
+from PIL import Image
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from rest_framework.test import APIClient
 from products.models import Category, Product
@@ -36,6 +39,31 @@ class TestProductsAPI:
         assert response.status_code == 200
         assert response.data['title'] == 'Пепперони'
 
+    def test_upload_product_image(self):
+        """Проверка загрузки файла изображения для товара."""
+        file_obj = io.BytesIO()
+        image = Image.new('RGBA', size=(50, 50), color=(255, 0, 0, 0))
+        image.save(file_obj, 'png')
+        file_obj.seek(0)
+
+        uploaded_file = SimpleUploadedFile('test_pizza.png', file_obj.read(), content_type='image/png')
+
+        response = self.client.post(
+            '/api/products/',
+            {
+                'title': 'Четыре сыра',
+                'description': 'Очень сырная',
+                'price': '600.00',
+                'image': uploaded_file,
+            },
+            format='multipart',
+        )
+        assert response.status_code == 201
+        data = response.data
+        assert data['title'] == 'Четыре сыра'
+        assert 'test_pizza' in data['imageUrl']
+        assert data['image'] is not None
+
     def test_get_categories_list(self):
         response = self.client.get('/api/categories/')
         assert response.status_code == 200
@@ -43,6 +71,7 @@ class TestProductsAPI:
         assert len(results) == 1
         assert results[0]['name'] == 'Пиццы'
         assert results[0]['slug'] == 'pizzas'
+
 
 
 @pytest.mark.django_db

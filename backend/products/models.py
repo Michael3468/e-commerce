@@ -31,11 +31,17 @@ class Product(models.Model):
         related_name='products',
         verbose_name='Категория',
     )
+    image = models.ImageField(
+        upload_to='products/',
+        blank=True,
+        null=True,
+        verbose_name='Изображение товара',
+    )
     image_url = models.URLField(
         max_length=500,
         blank=True,
         default='',
-        verbose_name='Ссылка на изображение',
+        verbose_name='Ссылка на изображение (внешняя)',
     )
     is_available = models.BooleanField(default=True, verbose_name='В наличии')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
