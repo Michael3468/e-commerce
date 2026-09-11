@@ -53,9 +53,14 @@ npm run commit   # интерактивный мастер создания ко
 ## Запуск всего проекта через Docker Compose
 
 ```bash
-# Сборка и запуск всех сервисов (frontend, backend, db, redis, celery_worker)
-docker compose up --build
+# Запуск всех сервисов в фоновом/обычном режиме (frontend, backend, db, redis, celery_worker)
+docker compose up
 ```
+
+> **Горячая перезагрузка (Hot Reload):**
+> Код фронтенда (`frontend/`) и бэкенда (`backend/`) смонтирован через volumes, поэтому любые изменения в коде подхватываются на лету без необходимости повторной сборки (`--build`) или перезапуска контейнеров.
+>
+> Флаг `--build` (`docker compose up --build`) требуется только при изменении зависимостей (`package.json`, `requirements.txt`) или Dockerfile.
 
 После старта будут доступны:
 

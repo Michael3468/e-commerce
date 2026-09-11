@@ -84,13 +84,18 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     container_name: ecommerce_frontend
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000/api
       - INTERNAL_API_URL=http://backend:8000/api
+      - WATCHPACK_POLLING=true
     depends_on:
       - backend
 
