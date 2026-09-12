@@ -1,12 +1,12 @@
 .gigacode
+.kodik
+.pytest_cache
 .vscode
 
-frontend/node_modules
-frontend/.next
 
 node_modules/
 
-.kodik/
-
-frontend/tsconfig.tsbuildinfo
+frontend/.next
 frontend/ignore/
+frontend/node_modules
+frontend/tsconfig.tsbuildinfo
