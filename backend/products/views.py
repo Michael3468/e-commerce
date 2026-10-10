@@ -15,16 +15,20 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    """API endpoint для управления товарами."""
+    """Каталог товаров: чтение публичное, запись только для персонала."""
 
     queryset = Product.objects.select_related('category').filter(is_available=True)
     serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['category', 'category__slug']
     search_fields = ['title', 'description']
     ordering_fields = ['price', 'created_at', 'title']
     ordering = ['-created_at']
+
+    def get_permissions(self):
+        if self.action in ('list', 'retrieve'):
+            return [permissions.AllowAny()]
+        return [permissions.IsAdminUser()]
 
     def get_queryset(self):
         # Если пользователь персонал / админ, показываем и недоступные товары

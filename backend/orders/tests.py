@@ -1,8 +1,13 @@
 """Tests for orders API."""
+from decimal import Decimal
+
 import pytest
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from products.models import Category, Product
 from orders.models import Order
+
+User = get_user_model()
 
 
 @pytest.mark.django_db
@@ -38,13 +43,13 @@ class TestOrdersAPI:
         assert response.status_code == 201
         data = response.data
         assert 'id' in data
-        assert float(data['total']) == 900.00
+        assert Decimal(str(data['total'])) == Decimal('900.00')
         assert len(data['items']) == 1
         assert data['items'][0]['quantity'] == 2
 
         # Проверяем сохранение в базе
         order_in_db = Order.objects.get(id=data['id'])
-        assert order_in_db.total == 900.00
+        assert order_in_db.total == Decimal('900.00')
         assert order_in_db.items.count() == 1
         assert order_in_db.items.first().product == self.product
 
@@ -56,4 +61,26 @@ class TestOrdersAPI:
         response = self.client.get(f'/api/orders/{order.id}/')
         assert response.status_code == 200
         assert response.data['id'] == str(order.id)
-        assert float(response.data['total']) == 1000.00
+        assert Decimal(str(response.data['total'])) == Decimal('1000.00')
+
+    def test_anonymous_cannot_list_orders(self):
+        Order.objects.create(total=1000.00, customer_name='Петр')
+
+        response = self.client.get('/api/orders/')
+
+        assert response.status_code == 403
+
+    def test_staff_can_list_orders(self):
+        Order.objects.create(total=1000.00, customer_name='Петр')
+        staff = User.objects.create_user(
+            username='staff',
+            password='pass',
+            is_staff=True,
+        )
+        self.client.force_authenticate(user=staff)
+
+        response = self.client.get('/api/orders/')
+
+        assert response.status_code == 200
+        results = response.data.get('results', response.data)
+        assert len(results) == 1

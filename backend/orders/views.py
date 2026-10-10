@@ -10,12 +10,12 @@ class OrderViewSet(
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):
-    """API endpoint для оформления и просмотра заказов."""
+    """Оформление заказа публичное; список заказов — только персонал."""
 
     queryset = Order.objects.prefetch_related('items').all()
     serializer_class = OrderSerializer
-    permission_classes = [permissions.AllowAny]
 
-    def get_queryset(self):
-        # Обычные клиенты могут только создавать заказы или получать свой конкретный по UUID
-        return super().get_queryset()
+    def get_permissions(self):
+        if self.action in ('create', 'retrieve'):
+            return [permissions.AllowAny()]
+        return [permissions.IsAdminUser()]

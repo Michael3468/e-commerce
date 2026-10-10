@@ -1,11 +1,16 @@
 """Tests for products API."""
 import io
+from decimal import Decimal
+
 import pytest
 from PIL import Image
+from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from rest_framework.test import APIClient
 from products.models import Category, Product
+
+User = get_user_model()
 
 
 @pytest.mark.django_db
@@ -29,7 +34,7 @@ class TestProductsAPI:
         results = response.data.get('results', response.data)
         assert len(results) == 1
         assert results[0]['title'] == 'Пепперони'
-        assert float(results[0]['price']) == 500.00
+        assert Decimal(str(results[0]['price'])) == Decimal('500.00')
         assert results[0]['imageUrl'] == 'http://example.com/pizza.jpg'
         assert results[0]['category_name'] == 'Пиццы'
         assert results[0]['category'] == 'Пиццы'
@@ -39,14 +44,47 @@ class TestProductsAPI:
         assert response.status_code == 200
         assert response.data['title'] == 'Пепперони'
 
-    def test_upload_product_image(self):
-        """Проверка загрузки файла изображения для товара."""
+    def _png_upload(self, name='test_pizza.png'):
         file_obj = io.BytesIO()
         image = Image.new('RGBA', size=(50, 50), color=(255, 0, 0, 0))
         image.save(file_obj, 'png')
         file_obj.seek(0)
+        return SimpleUploadedFile(name, file_obj.read(), content_type='image/png')
 
-        uploaded_file = SimpleUploadedFile('test_pizza.png', file_obj.read(), content_type='image/png')
+    def test_anonymous_cannot_create_product(self):
+        response = self.client.post(
+            '/api/products/',
+            {
+                'title': 'Четыре сыра',
+                'description': 'Очень сырная',
+                'price': '600.00',
+            },
+            format='multipart',
+        )
+        assert response.status_code == 403
+        assert not Product.objects.filter(title='Четыре сыра').exists()
+
+    def test_anonymous_cannot_update_or_delete_product(self):
+        patch_response = self.client.patch(
+            f'/api/products/{self.product.id}/',
+            {'price': '1.00'},
+            format='json',
+        )
+        delete_response = self.client.delete(f'/api/products/{self.product.id}/')
+
+        assert patch_response.status_code == 403
+        assert delete_response.status_code == 403
+        self.product.refresh_from_db()
+        assert self.product.price == Decimal('500.00')
+        assert Product.objects.filter(id=self.product.id).exists()
+
+    def test_staff_can_upload_product_image(self):
+        staff = User.objects.create_user(
+            username='staff',
+            password='pass',
+            is_staff=True,
+        )
+        self.client.force_authenticate(user=staff)
 
         response = self.client.post(
             '/api/products/',
@@ -54,7 +92,7 @@ class TestProductsAPI:
                 'title': 'Четыре сыра',
                 'description': 'Очень сырная',
                 'price': '600.00',
-                'image': uploaded_file,
+                'image': self._png_upload(),
             },
             format='multipart',
         )
@@ -99,4 +137,3 @@ class TestSeedProductsCommand:
 
         assert Category.objects.count() == categories_before
         assert Product.objects.count() == products_before
-        # assert not Product.objects.filter(title='Пепперони').exists()
